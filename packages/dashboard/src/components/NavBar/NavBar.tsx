@@ -25,7 +25,7 @@ export default function NavBar() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3170/v1/auth/logout', {}, { withCredentials: true });
+      await axios.get('http://localhost:3170/v1/auth/logout', { withCredentials: true });
       navigate('/login');
     } catch (error) {
       console.error('Error logging out:', error);
