@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  backend:
+    container_name: backend
+    build:
+      dockerfile: packages/backend/Dockerfile
+      context: .
+      target: dev
+    env_file:
+      - ./.env
+    restart: always
+    volumes:
+      - ./packages/backend/:/usr/src/app
+      - /usr/src/app/node_modules/
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3170:3170"
+      
+
   db:
     image: postgres:latest
     container_name: postgres_db
@@ -10,6 +29,15 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   postgres_data:
