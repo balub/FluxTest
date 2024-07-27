@@ -40,7 +40,7 @@ const Project: React.FC = () => {
             <Tab label="Analysis" />
         </Tabs>
       </Box>
-      <Box marginTop={2}>
+      <Box sx={{height: "80vh", overflow: "hidden"}}>
         {value === 0 && <Editor></Editor>}
         {value === 1 && <Analytics></Analytics>}
       </Box>
