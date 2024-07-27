@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import CreateTemplateDTO from './dtos/create-project.dto';
+import CreateTemplateDTO from './dtos/create-template.dto';
 
 @Injectable()
 export class TemplatesService {

@@ -187,7 +187,11 @@ importers:
         specifier: ^5.3.4
         version: 5.3.4
 
-  packages/script: {}
+  packages/script:
+    devDependencies:
+      vite:
+        specifier: ^5.3.4
+        version: 5.3.4
 
 packages:
 
