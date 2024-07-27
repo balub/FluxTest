@@ -5,27 +5,35 @@ import axios from 'axios';
 import "./styles.css";
 
 const Editor: React.FC = () => {
-  const [placeholder, setPlaceholder] = useState('Enter text here...');
-  const [label, setLabel] = useState('Input Label');
-  const [position, setPosition] = useState('');
   const [tabValue, setTabValue] = useState(0);
   const [components, setComponents] = useState<{ id: string, name: string }[]>([]);
   const [selectedComponent, setSelectedComponent] = useState<string>('');
+  //common property
+  const [label, setLabel] = useState('Input Label');
+  const [position, setPosition] = useState('');
+  //input property
+  const [placeholder, setPlaceholder] = useState('Enter text here...');
+  //tab property
+  const [minValue, setMinValue] = useState<number>(1);
+  const [maxValue, setMaxValue] = useState<number>(100);
 
   useEffect(() => {
-    if (tabValue === 0) {
       const fetchComponents = async () => {
         try {
           const response = await axios.get('http://localhost:3170/v1/components', { withCredentials: true });
-          setComponents(response.data);
+          const componentData = response.data;
+
+          setComponents(componentData);
+          if (componentData.length > 0) {
+            setSelectedComponent(componentData[0].name);
+          }
         } catch (error) {
           console.error('Error fetching components:', error);
         }
       };
 
       fetchComponents();
-    }
-  }, [tabValue]);
+  }, []);
 
   const handleDropdownChange = (event: SelectChangeEvent) => {
     setPosition(event.target.value as string);
@@ -39,21 +47,127 @@ const Editor: React.FC = () => {
     setSelectedComponent(event.target.value as string);
   };
 
-  return (
-    <Grid container sx={{backgroundColor: "grey", height: "100%"}}>
+  const renderComponent = () => {
+    const component = components.find(comp => comp.name === selectedComponent);
 
+    if (component) {
+      switch (component.name) {
+        case 'INPUT':
+          return (
+            <input type="text" className="input-field" placeholder={placeholder} disabled />
+          );
+
+        case 'RANGE':
+          return (
+            <div className="slider-container">
+            <input 
+              type="range" 
+              min={minValue} 
+              max={maxValue} 
+              value={(minValue + maxValue) / 2} 
+              className="slider" 
+            />
+            <div className="slider-info">
+              <small>{minValue}</small>
+              <small>{(minValue + maxValue) / 2}</small>
+              <small>{maxValue}</small>
+            </div>
+          </div>
+          );
+
+        case 'RATING':
+          return (
+            <div className="radio-group">
+              {[1, 2, 3, 4, 5].map(value => (
+                <div key={value}>
+                  <input type="radio" id={`rating${value}`} name="rating" value={value} />
+                  <label htmlFor={`rating${value}`}>{value}</label>
+                </div>
+              ))}
+            </div>
+          );
+
+        default:
+          return <Typography>No Component Selected</Typography>;
+      }
+    }
+    return <Typography>No Component Selected</Typography>;
+  };
+
+  const renderField = () => {
+    const component = components.find(comp => comp.name === selectedComponent);
+    if (component) {
+      switch (component.name) {
+        case 'INPUT':
+          return (
+            <>
+              <InputLabel id="demo-simple-select-label">Placeholder</InputLabel>
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={placeholder}
+                onChange={(e) => setPlaceholder(e.target.value)}
+                margin="normal"
+              />
+            </>
+          );
+
+        case 'RANGE':
+          return (
+            <>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <InputLabel id="min-value-label">Min Value</InputLabel>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  type="number"
+                  value={minValue}
+                  onChange={(e) => setMinValue(Number(e.target.value))}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel id="max-value-label">Max Value</InputLabel>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  type="number"
+                  value={maxValue}
+                  onChange={(e) => setMaxValue(Number(e.target.value))}
+                  margin="normal"
+                />
+              </Grid>
+            </Grid>
+          </>
+          );
+
+        case 'RATING':
+          return (
+            <>
+            </>
+          );
+
+        default:
+          return <Typography>No Component Selected</Typography>;
+      }
+    }
+  };
+
+  return (
+    <Grid container sx={{ backgroundColor: "grey", height: "100%" }}>
       <Grid item xs={8}>
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
           <div className="center-display">
             <div className="input-box">
               <h6 className="label">{label}</h6>
-              <input type="text" className="input-field" placeholder={placeholder} disabled/>
+              {renderComponent()}
               <button className="submit-button">Submit</button>
             </div>
           </div>
         </Box>
       </Grid>
-      
+
       <Grid item xs={4}>
         <Box
           sx={{
@@ -68,7 +182,7 @@ const Editor: React.FC = () => {
             <Tab label="Components" />
             <Tab label="Inspect" />
           </Tabs>
-          
+
           {tabValue === 0 && (
             <Box>
               <Typography variant="h6" gutterBottom>
@@ -83,27 +197,19 @@ const Editor: React.FC = () => {
                 fullWidth
               >
                 {components.map((component) => (
-                  <MenuItem key={component.id} value={component.id}>
+                  <MenuItem key={component.id} value={component.name}>
                     {component.name}
                   </MenuItem>
                 ))}
               </Select>
             </Box>
           )}
-          
+
           {tabValue === 1 && (
             <Box>
               <Typography variant="h6" gutterBottom>
                 Inspect
               </Typography>
-              <InputLabel id="demo-simple-select-label">Placeholder</InputLabel>
-              <TextField
-                fullWidth
-                variant="outlined"
-                value={placeholder}
-                onChange={(e) => setPlaceholder(e.target.value)}
-                margin="normal"
-              />
               <InputLabel id="demo-simple-select-label">Label</InputLabel>
               <TextField
                 fullWidth
@@ -112,6 +218,7 @@ const Editor: React.FC = () => {
                 onChange={(e) => setLabel(e.target.value)}
                 margin="normal"
               />
+                 {renderField()}
               <Stack>
                 <InputLabel id="demo-simple-select-label">Position</InputLabel>
                 <Select
