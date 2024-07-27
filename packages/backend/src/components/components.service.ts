@@ -6,6 +6,6 @@ export class ComponentsService {
     constructor(private readonly prisma: PrismaService) { }
 
     async getAllComponents() {
-        return this.prisma.components.findMany({ where: { status: "ACTIVE" } })
+        return this.prisma.components.findMany({ where: { status: "ACTIVATE" } })
     }
 }
