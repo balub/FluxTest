@@ -5,14 +5,15 @@ import NotFound from './pages/NotFound/NotFound';
 import SignIn from './pages/SignIn/SignIn';
 import Layout from './components/Layout/Layout';
 import Project from './pages/Project/Project';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<ProjectList />} />
-          <Route path="/project/:id" element={<Project />} />
+          <Route path="/" element={<ProtectedRoute element={<ProjectList />}/>} />
+          <Route path="/project/:id" element={<ProtectedRoute element={<Project />}/>} />
         </Route>
         <Route path="/login" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
