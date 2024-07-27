@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  uid              String    @id @default(cuid())
+  uid              String     @id @default(cuid())
   displayName      String?
-  email            String?   @unique
+  email            String?    @unique
   photoURL         String?
   refreshToken     String?
   providerAccounts Account[]
-  createdOn        DateTime  @default(now()) @db.Timestamp(3)
+  createdOn        DateTime   @default(now()) @db.Timestamp(3)
   Project          Project[]
+  Template         Template[]
 }
 
 model Account {
@@ -60,6 +61,8 @@ model Template {
   id        String   @unique @default(uuid())
   projectId String   @unique
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy String
+  user      User     @relation(fields: [createdBy], references: [uid], onDelete: Cascade)
   meta      Json
   createdOn DateTime @default(now())
   updatedOn DateTime @updatedAt
