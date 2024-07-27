@@ -1,9 +1,21 @@
 import React from 'react';
 import { Box, Card, CardContent, IconButton, Typography, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
-const Projects: React.FC = () => {
-  const projectNames = ['Project One', 'Project Two', 'Project Three'];
+const projects = [
+  { id: 1, name: 'Project One' },
+  { id: 2, name: 'Project Two' },
+  { id: 3, name: 'Project Three' },
+];
+
+const ProjectList: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const handleCardClick = (id: number) => {
+    navigate(`/project/${id}`);
+  };
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" paddingX={35} paddingY={4}>
@@ -24,12 +36,12 @@ const Projects: React.FC = () => {
               </CardContent>
             </Card>
           </Grid>
-          {projectNames.map((projectName, index) => (
+          {projects.map((project, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card style={{ width: '300px', height: '200px' }}>
+              <Card style={{ width: '300px', height: '200px' }} onClick={() => handleCardClick(project.id)}>
                 <CardContent>
                   <Typography variant="h6">
-                    {projectName}
+                    {project.name}
                   </Typography>
                 </CardContent>
               </Card>
@@ -41,4 +53,4 @@ const Projects: React.FC = () => {
   );
 };
 
-export default Projects;
+export default ProjectList;
