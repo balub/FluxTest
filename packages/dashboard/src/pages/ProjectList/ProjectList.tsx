@@ -1,25 +1,35 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Box, Card, CardContent, IconButton, Typography, Grid, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+interface Project {
+  id: string;
+  name: string;
+  createdBy: string;
+  createdOn: string;
+  updatedOn: string;
+}
+
 const ProjectList: React.FC = () => {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState<{ id: number; name: string }[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [projectName, setProjectName] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+
   const handleOpenModal = () => setModalOpen(true);
   const handleCloseModal = () => setModalOpen(false);
   
-  const handleCardClick = (id: number) => {
+  const handleCardClick = (id: string) => {
     navigate(`/project/${id}`);
   };
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        await axios.get('http://localhost:3170/v1/projects', { withCredentials: true });
+        const response = await axios.get('http://localhost:3170/v1/projects', { withCredentials: true });
+        setProjects(response.data);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -32,9 +42,9 @@ const ProjectList: React.FC = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3170/v1/projects', { name: projectName }, {withCredentials: true});
+      const response = await axios.post('http://localhost:3170/v1/projects', { name: projectName }, { withCredentials: true });
       setProjects((prevProjects) => [
-        { id: response.data.id, name: projectName },
+        { id: response.data.id, name: projectName, createdBy: '', createdOn: '', updatedOn: '' }, // Update accordingly
         ...prevProjects
       ]);
       setProjectName('');
@@ -46,7 +56,7 @@ const ProjectList: React.FC = () => {
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" paddingX={35} paddingY={4}>
-      <Modal open={modalOpen}  onClose={handleCloseModal}>
+      <Modal open={modalOpen} onClose={handleCloseModal}>
         <Box
           display="flex"
           flexDirection="column"
@@ -82,7 +92,7 @@ const ProjectList: React.FC = () => {
         </Box>
       </Modal>
       <Box>
-        <Typography variant="h6" sx={{fontWeight: "600"}} gutterBottom>
+        <Typography variant="h6" sx={{ fontWeight: "600" }} gutterBottom>
           Recent Projects
         </Typography>
         <Grid container spacing={2}>
@@ -98,8 +108,8 @@ const ProjectList: React.FC = () => {
               </CardContent>
             </Card>
           </Grid>
-          {projects.map((project, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+          {projects.map((project) => (
+            <Grid item xs={12} sm={6} md={4} key={project.id}>
               <Card style={{ width: '300px', height: '200px' }} onClick={() => handleCardClick(project.id)}>
                 <CardContent>
                   <Typography variant="h6">
