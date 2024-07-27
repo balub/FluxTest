@@ -1,0 +1,1 @@
+pnpx prisma migrate deploy
