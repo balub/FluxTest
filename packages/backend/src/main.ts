@@ -6,7 +6,6 @@ import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const whitelist = process.env.WHITELISTED_ORIGINS.split(',').map(origin => origin.trim());
 
   console.log(`Port: ${process.env.PORT}`);
 
@@ -16,6 +15,9 @@ async function bootstrap() {
     }),
   );
 
+  const whitelist = process.env.WHITELISTED_ORIGINS.split(',').map((origin) =>
+    origin.trim(),
+  );
   app.enableCors({
     origin: (origin, callback) => {
       if (whitelist.includes(origin) || !origin) {
