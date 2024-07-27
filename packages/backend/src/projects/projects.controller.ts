@@ -14,6 +14,7 @@ export class ProjectsController {
     async getAllUserProjects(@Param('id') id: string, @User() user: AuthUser) {
         return this.projectsService.getUserProjects(user.uid)
     }
+    
 
     @Post()
     @UseGuards(JwtAuthGuard)
