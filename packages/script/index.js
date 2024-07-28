@@ -1,4 +1,9 @@
 instance = null;
+
+const colors = {
+  success: "green",
+  error: "red"
+}
 class Flux {
   constructor(projectId = null) {
     this.projectId = projectId;
@@ -22,22 +27,126 @@ class Flux {
     return newInstance;
   }
 
+  addStyle = () => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+    .toast-message{
+    width: 100%;
+    font-size: 15px;
+    border: none;
+    background: none;
+    cursor: default;
+    margin-bottom: 16px;
+    }
+      .center-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 66.66%;
+      }
+
+      .input-box {
+        color: black;
+        padding: 16px;
+        width: 100%;
+        max-width: 400px;
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+
+      .input-field::placeholder {
+        color: #ccc;
+      }
+
+      .label {
+        color: rgb(38, 37, 37);
+        font-size: 16px;
+        margin-bottom: 8px;
+        margin-top: 8px;
+      }
+
+      .input-field {
+        width: 95%;
+        padding: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .slider-info {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .slider {
+        width: 100%;
+      }
+
+      .radio-group {
+        display: flex;
+        width: 80%;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .submit-button {
+        float: right;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+
+      .submit-button:hover {
+        background-color: #0056b3;
+      }
+
+      .top-left {
+        position: absolute;
+        top: 50px;
+        left: 50px;
+      }
+
+      .top-right {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+      }
+
+      .bottom-left {
+        position: absolute;
+        bottom: 50px;
+        left: 50px;
+      }
+
+      .bottom-right {
+        position: absolute;
+        bottom: 50px;
+        right: 50px;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   async render() {
+    this.addStyle()
     const templateData = await fetchTemplateData(this.projectId);
-    console.log(templateData);
 
     for (let index = 0; index < templateData.meta.length; index++) {
       componentRender(templateData.meta[index]);
     }
-
-    // document.querySelectorAll(".submit-button").forEach((button) => {
-    //   button.addEventListener("click", (e) => {
-    //     const inputId = button.dataset.inputId;
-    //     const componentId = button.dataset.componentId;
-    //     const component = document.querySelector(`#${inputId} input`);
-    //     console.log(component.value, "inputField.value");
-    //   });
-    // });
   }
 }
 
@@ -77,7 +186,7 @@ const componentRender = (templateData) => {
     case "INPUT":
       const inputId = generateRandomId();
       fluxContainer.innerHTML += `<div class=${data.position} id="${inputId}">
-            <div class="input-box">
+            <div class="input-box" style="padding:50px">
               <h6 class="label">${data.label}</h6>
              <input type="text" class="input-field" placeholder="${data.placeholder}" />
               <button 
@@ -93,42 +202,69 @@ const componentRender = (templateData) => {
       button.addEventListener("click", () => {
         const inputField = inputContainer.querySelector(".input-field");
         const value = inputField.value;
-        console.log(`Button inside ${inputId} clicked`, value);
+        console.log(value);
+        button.disabled = "true"
+        button.style = "opacity:0.6"
+        setTimeout(() => {
+          document.getElementById(inputId).style.display = "none"
+        }, 2000)
         // Handle button click event here
       });
       break;
 
     case "SLIDER":
       const sliderId = generateRandomId();
-      fluxContainer.innerHTML += `<div class="${
-        data.position
-      }" id="${sliderId}">
+      fluxContainer.innerHTML += `<div class="${data.position
+        }" id="${sliderId}">
+                <div class="input-box">
             <div class="slider-container">
+            <h6 class="label" style="width:100%">${data.label}</h6>
               <input 
                 type="range" 
-                min="${data.minValue}" 
-                max="${data.maxValue}" 
-                value="${(data.minValue + data.maxValue) / 2}" 
+                min="${data.minValue || 0}" 
+                max="${data.maxValue || 10}" 
                 class="slider" 
               />
               <div class="slider-info">
-                <small>${data.minValue}</small>
-                <small>${(data.minValue + data.maxValue) / 2}</small>
-                <small>${data.maxValue}</small>
+                <small>${data.minValue || 0}</small>
+                <small>${(data.minValue || 0 + data.maxValue || 10) / 2}</small>
+                <small>${data.maxValue || 10}</small>
               </div>
             </div>
+            </div>
           </div>`;
+
 
       // Add event listener to the newly created slider
       document
         .getElementById(sliderId)
         .querySelector(".slider")
-        .addEventListener("input", (event) => {
-          console.log(
-            `Slider inside ${sliderId} changed to ${event.target.value}`
-          );
-          // Handle slider input event here
+        .addEventListener("mouseup", (event) => {
+          const value = event.target.value
+          document.getElementById(sliderId).querySelector(".slider").disabled = "true"
+          setTimeout(() => {
+            document.getElementById(sliderId).style.display = "none"
+          }, 2000)
         });
+
+      break;
+
+    case "REMINDER":
+      const toastId = generateRandomId();
+      fluxContainer.innerHTML += `<div id="${toastId}" class="${data.position
+        }" class="center-display">
+            <div class="input-box" style="border-color:${colors[data.status]}">
+              <h6 class="label">${data.label}</h6>
+             <input type="text" class="toast-message" placeholder="${data.placeholder}" disabled />
+            </div>
+          </div>`;
+      setTimeout(() => {
+        document.getElementById(toastId).style.display = "none"
+      }, 2000)
+
+
+
+
       break;
 
     default:
