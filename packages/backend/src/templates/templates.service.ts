@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import CreateTemplateDTO from './dtos/create-project.dto';
+import CreateTemplateDTO from './dtos/create-template.dto';
 
 @Injectable()
 export class TemplatesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async createTemplate(data: CreateTemplateDTO, userId: string) {
     return this.prisma.template.create({
