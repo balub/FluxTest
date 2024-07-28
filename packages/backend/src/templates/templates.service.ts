@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import CreateTemplateDTO from './dtos/create-project.dto';
+import CreateTemplateDTO from './dtos/create-template.dto';
 
 @Injectable()
 export class TemplatesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async createTemplate(data: CreateTemplateDTO, userId: string) {
     return this.prisma.template.create({
@@ -28,6 +28,17 @@ export class TemplatesService {
     return this.prisma.template.findUnique({
       where: {
         projectId,
+      },
+    });
+  }
+
+  async updateTemplate(data: CreateTemplateDTO, projectId: string, userId: string) {
+    return this.prisma.template.update({
+      where: { projectId },
+      data: {
+        meta: data.meta,
+        projectId: data.projectId,
+        createdBy: userId,
       },
     });
   }
