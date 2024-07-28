@@ -20,6 +20,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@clickhouse/client": "^1.4.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.2.0",

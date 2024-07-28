@@ -10,6 +10,9 @@ importers:
 
   packages/backend:
     dependencies:
+      '@clickhouse/client':
+        specifier: ^1.4.0
+        version: 1.4.0
       '@nestjs/common':
         specifier: ^10.0.0
         version: 10.0.0(class-validator@0.14.1)(reflect-metadata@0.2.0)(rxjs@7.8.1)
@@ -568,6 +571,17 @@ packages:
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
+
+  /@clickhouse/client-common@1.4.0:
+    resolution: {integrity: sha512-kglG8YyWnR1K24RckUf5ZdNTN0U0s+a1j/bpCO4ZjzjO87ICgWlXFVD22pZqSACW7/2IIi1IkzbwtxKI2s/MOw==}
+    dev: false
+
+  /@clickhouse/client@1.4.0:
+    resolution: {integrity: sha512-O4mbFPM/wQtFck01ghYI2mnNHv9jSFEiQBsTCH4t6MKeGHNAPkJGaFGv+KycLTv6zjnQNjiUGdXDMVRema5SyA==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@clickhouse/client-common': 1.4.0
+    dev: false
 
   /@colors/colors@1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
