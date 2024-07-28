@@ -7,14 +7,17 @@ import { User } from 'src/decorators/user.decorator';
 
 @Controller({ path: 'templates', version: '1' })
 export class TemplatesController {
-    constructor(private readonly templateService: TemplatesService) { }
-    // @UseGuards(JwtAuthGuard) @User() authUser: AuthUser
+  constructor(private readonly templateService: TemplatesService) {}
+  // @UseGuards(JwtAuthGuard) @User() authUser: AuthUser
 
-    @Post()
-    @UseGuards(JwtAuthGuard)
-    async createTemplate(@Body() body: CreateTemplateDTO, @User() authUser: AuthUser) {
-        return this.templateService.createTemplate(body, authUser.uid)
-    }
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  async createTemplate(
+    @Body() body: CreateTemplateDTO,
+    @User() authUser: AuthUser,
+  ) {
+    return this.templateService.createTemplate(body, authUser.uid);
+  }
 
     @Get(":projectId")
     @UseGuards(JwtAuthGuard)

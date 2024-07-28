@@ -4,30 +4,31 @@ import CreateProjectDTO from './dtos/create-project.dto';
 
 @Injectable()
 export class ProjectsService {
-    constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-    async createProject(userData: CreateProjectDTO, userId: string) {
-        return this.prisma.project.create({
-            data: {
-                name: userData.name,
-                createdBy: userId
-            }
-        })
-    }
+  async createProject(userData: CreateProjectDTO, userId: string) {
+    return this.prisma.project.create({
+      data: {
+        name: userData.name,
+        createdBy: userId,
+      },
+    });
+  }
 
-    async getUserProjects(userId: string) {
-        return this.prisma.project.findMany({
-            where: {
-                createdBy: userId
-            }
-        })
-    }
+  async getUserProjects(userId: string) {
+    return this.prisma.project.findMany({
+      where: {
+        createdBy: userId,
+      },
+    });
+  }
 
-    async getProject(projectId: string) {
-        return this.prisma.project.findMany({
-            where: {
-                id: projectId
-            }
-        })
-    }
+  async getProject(projectId: string) {
+    return this.prisma.project.findMany({
+      where: {
+        id: projectId,
+      },
+    });
+  }
+
 }

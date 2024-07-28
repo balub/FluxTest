@@ -4,36 +4,33 @@ import CreateTemplateDTO from './dtos/create-project.dto';
 
 @Injectable()
 export class TemplatesService {
-    constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-    async createTemplate(data: CreateTemplateDTO, userId: string) {
-        return this.prisma.template.create({
-            data: {
-                meta: data.meta,
-                projectId: data.projectId,
-                createdBy: userId
-            }
-        })
-    }
+  async createTemplate(data: CreateTemplateDTO, userId: string) {
+    return this.prisma.template.create({
+      data: {
+        meta: data.meta,
+        projectId: data.projectId,
+        createdBy: userId,
+      },
+    });
+  }
 
-    async getTemplateByProject(projectId: string) {
-        return this.prisma.template.findUnique({
-            where: {
-                projectId
-            }
-        })
-    }
+  async getTemplateByProject(projectId: string) {
+    return this.prisma.template.findUnique({
+      where: {
+        projectId,
+      },
+    });
+  }
 
-    async getTemplateForScript(projectId: string) {
-        return this.prisma.template.findUnique({
-            select: {
-                meta: true
-            },
-            where: {
-                projectId
-            }
-        })
-    }
+  async getTemplateForScript(projectId: string) {
+    return this.prisma.template.findUnique({
+      where: {
+        projectId,
+      },
+    });
+  }
 
     async updateTemplate(data: CreateTemplateDTO, projectId: string, userId: string) {
         return this.prisma.template.update({
