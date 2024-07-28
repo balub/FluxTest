@@ -1,21 +1,46 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: #141414;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-</head>
+      h1 {
+        font-size: 100px;
+        margin: 0;
+      }
 
-<body>
-  <h1>🚀</h1>
-  <div id="fluxContainer"></div>
-  <script src="./index.js" projectID="khfsdvbfkvd" elementId="holder"></script>
-  <script>
-    const flux = new Flux();
-    flux.setKey("521a748e-861c-49c6-b41d-aaf5dd44aa41");
-    flux.get().render();
-  </script>
-</body>
+      h2 {
+        margin-top: 10px;
+        font-size: 42px;
+      }
+    </style>
+  </head>
 
+  <body>
+    <h1>🚀</h1>
+    <h2>Some random app</h2>
+    <div id="fluxContainer"></div>
+    <script
+      src="./index.js"
+      projectID="khfsdvbfkvd"
+      elementId="holder"
+    ></script>
+    <script>
+      const flux = new Flux();
+      flux.setKey("c0a45b6a-45c3-4d38-8290-dea21fc1029f");
+      flux.get().render();
+    </script>
+  </body>
 </html>

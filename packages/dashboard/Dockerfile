@@ -1,21 +1,21 @@
-FROM node:18 AS builder
+# Initial stage, just build the app
+FROM node:lts as builder
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-RUN npm install -g pnpm
-
-COPY package.json pnpm-lock.yaml ./
-
-RUN pnpm install
+RUN npm i -g pnpm
 
 COPY . .
+RUN pnpm install --force --frozen-lockfile
 
+WORKDIR /usr/src/app/packages/dashboard/
 RUN pnpm run build
 
-FROM nginx:stable-alpine
 
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Final stage, take the build artifacts and package it into a static Caddy server
+FROM caddy:2-alpine
+WORKDIR /site
+COPY packages/dashboard/Caddyfile /etc/caddy/Caddyfile
+COPY --from=builder /usr/src/app/packages/dashboard/dist/ .
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080

@@ -41,7 +41,7 @@ Install dependencies
   pnpm install
 ```
 
-Build the FluxText images with
+Build the FluxTest images with
 
 ```bash
   docker compose build .
