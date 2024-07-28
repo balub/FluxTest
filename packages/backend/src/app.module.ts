@@ -5,8 +5,8 @@ import { UserModule } from './user/user.module';
 import { ProjectsModule } from './projects/projects.module';
 import { ComponentsModule } from './components/components.module';
 import { TemplatesModule } from './templates/templates.module';
-import { ClickhouseModule } from './clickhouse/clickhouse.module';
 import { ScriptHandlerModule } from './script-handler/script-handler.module';
+import { ResponseDataModule } from './response-data/response-data.module';
 
 @Module({
   imports: [
@@ -16,8 +16,8 @@ import { ScriptHandlerModule } from './script-handler/script-handler.module';
     ProjectsModule,
     ComponentsModule,
     TemplatesModule,
-    ClickhouseModule,
     ScriptHandlerModule,
+    ResponseDataModule,
   ],
 })
 export class AppModule {}

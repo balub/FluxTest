@@ -12,13 +12,12 @@ import CreateProjectDTO from './dtos/create-project.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/decorators/user.decorator';
 import { AuthUser } from 'src/types/AuthUser';
-import { ClickhouseService } from 'src/clickhouse/clickhouse.service';
-import * as E from 'fp-ts/Either';
+import { ResponseDataService } from 'src/response-data/response-data.service';
 @Controller({ path: 'projects', version: '1' })
 export class ProjectsController {
   constructor(
     private readonly projectsService: ProjectsService,
-    private readonly clickhouseService: ClickhouseService,
+    private readonly responseDataService: ResponseDataService,
   ) {}
 
   @Get()
@@ -39,16 +38,13 @@ export class ProjectsController {
     return this.projectsService.getProject(id);
   }
 
-  //   http://localhost:3170/v1/projects/:projectID/insights?componentId=script-handler
   @Get(':projectID/insights')
   @UseGuards(JwtAuthGuard)
   async getProjectInsights(
     @Param('projectID') projectID: string,
-    @Query('componentId') componentId: string,
+    @Query('componentID') componentID: string,
   ) {
-    console.log(projectID, componentId);
-    const res = await this.clickhouseService.fetchData(projectID, componentId);
-    if (E.isLeft(res)) throw new Error(res.left);
-    return res.right;
+    console.log(projectID, componentID);
+    return this.responseDataService.fetchData(projectID, componentID);
   }
 }
