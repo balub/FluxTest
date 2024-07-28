@@ -14,8 +14,8 @@ services:
       - ./packages/backend/:/usr/src/app
       - /usr/src/app/node_modules/
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+      - clickhouse
     ports:
       - "3170:3170"
 

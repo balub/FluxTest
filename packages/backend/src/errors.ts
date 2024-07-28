@@ -8,3 +8,6 @@ export const INVALID_ACCESS_TOKEN = 'auth/invalid_access_token' as const;
 
 export const CLICKHOUSE_FAILED_TO_SAVE_LOG =
   'clickhouse/failed_to_save_logs' as const;
+
+export const CLICKHOUSE_QUERY_FAILED =
+  'clickhouse/failed_to_fetch_data' as const;

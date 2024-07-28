@@ -4,8 +4,9 @@ import { TemplatesController } from './templates.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports:[PrismaModule],
+  imports: [PrismaModule],
   providers: [TemplatesService],
-  controllers: [TemplatesController]
+  controllers: [TemplatesController],
+  exports: [TemplatesService],
 })
 export class TemplatesModule {}

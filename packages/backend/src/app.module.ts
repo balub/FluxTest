@@ -6,8 +6,18 @@ import { ProjectsModule } from './projects/projects.module';
 import { ComponentsModule } from './components/components.module';
 import { TemplatesModule } from './templates/templates.module';
 import { ClickhouseModule } from './clickhouse/clickhouse.module';
+import { ScriptHandlerModule } from './script-handler/script-handler.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UserModule,ProjectsModule, ComponentsModule, TemplatesModule, ClickhouseModule],
+  imports: [
+    PrismaModule,
+    AuthModule,
+    UserModule,
+    ProjectsModule,
+    ComponentsModule,
+    TemplatesModule,
+    ClickhouseModule,
+    ScriptHandlerModule,
+  ],
 })
 export class AppModule {}
