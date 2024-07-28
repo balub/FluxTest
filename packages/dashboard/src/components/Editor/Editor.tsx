@@ -5,7 +5,7 @@ import { Box, Grid, TextField, Typography, InputLabel, Select, MenuItem, Stack, 
 import { SelectChangeEvent } from '@mui/material';
 import axios from 'axios';
 import "./styles.css";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const Editor: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +24,7 @@ const Editor: React.FC = () => {
   //toast property
   const [status, setStatus] = useState('success');
 
+  const navigate = useNavigate()
   useEffect(() => {
       const fetchComponents = async () => {
         try {
@@ -257,8 +258,9 @@ const Editor: React.FC = () => {
     }
 
     try {
-      await axios.put('http://localhost:3170/v1/templates', data, { withCredentials: true });
+      await axios.put(`http://localhost:3170/v1/templates/${id}`, data, { withCredentials: true });
       console.log('Data saved successfully');
+      navigate('/');
     } catch (error) {
       console.error('Error saving data:', error);
     }
