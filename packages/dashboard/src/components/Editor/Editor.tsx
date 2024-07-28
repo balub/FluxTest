@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, TextField, Typography, InputLabel, Select, MenuItem, Stack, Tabs, Tab, Button } from '@mui/material';
+import { Box, Grid, TextField, Typography, InputLabel, Select, MenuItem, Stack, Tabs, Tab, Button,
+  FormControl, FormControlLabel, RadioGroup, Radio
+ } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material';
 import axios from 'axios';
 import "./styles.css";
@@ -18,6 +20,8 @@ const Editor: React.FC = () => {
   //tab property
   const [minValue, setMinValue] = useState<number>(1);
   const [maxValue, setMaxValue] = useState<number>(100);
+  //toast property
+  const [status, setStatus] = useState('success');
 
   useEffect(() => {
       const fetchComponents = async () => {
@@ -42,6 +46,7 @@ const Editor: React.FC = () => {
             setSelectedComponent(meta.componentId.toUpperCase());
             setMinValue(meta.data.minValue || 1);
             setMaxValue(meta.data.maxValue || 100);
+            setStatus(meta.data.status || 'success');
           }
         } catch (error) {
           console.error('Error fetching template:', error);
@@ -71,11 +76,15 @@ const Editor: React.FC = () => {
       switch (component.name) {
         case 'INPUT':
           return (
-            <input type="text" className="input-field" placeholder={placeholder} disabled />
+            <>
+              <input type="text" className="input-field" placeholder={placeholder} disabled />
+              <button className="submit-button">Submit</button>
+            </>
           );
 
         case 'RANGE':
           return (
+            <>
             <div className="slider-container">
             <input 
               type="range" 
@@ -90,18 +99,15 @@ const Editor: React.FC = () => {
               <small>{maxValue}</small>
             </div>
           </div>
+           <button className="submit-button">Submit</button>
+           </>
           );
 
         case 'RATING':
           return (
-            <div className="radio-group">
-              {[1, 2, 3, 4, 5].map(value => (
-                <div key={value}>
-                  <input type="radio" id={`rating${value}`} name="rating" value={value} />
-                  <label htmlFor={`rating${value}`}>{value}</label>
-                </div>
-              ))}
-            </div>
+            <>
+              <input type="text" className="toast-message" placeholder={placeholder} disabled />
+            </>
           );
 
         default:
@@ -162,6 +168,19 @@ const Editor: React.FC = () => {
         case 'RATING':
           return (
             <>
+             <InputLabel id="demo-simple-select-label">Description</InputLabel>
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={placeholder}
+                onChange={(e) => setPlaceholder(e.target.value)}
+                margin="normal"/>
+                  <FormControl component="fieldset" margin="normal">
+                  <RadioGroup row value={status} onChange={handleStatusChange}>
+                    <FormControlLabel value="success" control={<Radio />} label="Success" sx={{color: "black"}}/>
+                    <FormControlLabel value="error" control={<Radio />} label="Error"  sx={{color: "black"}}/>
+                  </RadioGroup>
+                </FormControl>
             </>
           );
 
@@ -170,6 +189,11 @@ const Editor: React.FC = () => {
       }
     }
   };
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStatus((event.target as HTMLInputElement).value);
+  };
+
 
   const handleSave = async () => {
     const data:any = {
@@ -190,6 +214,9 @@ const Editor: React.FC = () => {
     } else if (selectedComponent === 'RANGE') {
       data.meta[0].data.minValue = minValue;
       data.meta[0].data.maxValue = maxValue;
+    } else{
+      data.meta[0].data.placeholder = placeholder;
+      data.meta[0].data.status = status;
     }
 
     try {
@@ -201,15 +228,18 @@ const Editor: React.FC = () => {
   };
 
   return (
-    <Grid container sx={{ backgroundColor: "grey", height: "100%" }}>
+    <Grid container sx={{ backgroundColor: "#2d2d31", height: "100%" }}>
       <Grid item xs={8}>
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
           <div className="center-display">
-            <div className="input-box">
+            <Box className="input-box"   sx={{
+              border: selectedComponent === 'RATING'
+                ? (status === 'success' ? '5px solid green' : '5px solid red')
+                : 'none',
+            }}>
               <h6 className="label">{label}</h6>
               {renderComponent()}
-              <button className="submit-button">Submit</button>
-            </div>
+            </Box>
           </div>
         </Box>
       </Grid>

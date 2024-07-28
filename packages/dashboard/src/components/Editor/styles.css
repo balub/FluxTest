@@ -50,11 +50,13 @@
     width: 100%;
   }
 
-  .radio-group{
-    display: flex;
-    width: 80%;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  .toast-message{
+    width: 100%;
+    font-size: 15px;
+    border: none;
+    background: none;
+    cursor: default;
+    margin-bottom: 16px;
   }
   
   .submit-button {
