@@ -1,12 +1,16 @@
 # FluxTest
 
-FluxTest is a simple, open-source, self-hostable tool for collecting product feedback and analysis.
+FluxTest is a simple, open-source, self-hostable tool for collecting product feedback and analysis. The idea behind FluxTest is that product managers or other non-technical team members no longer have to rely on the engineering team to help them run minor experiments and other activities they want to conduct on their platform with their users.
+
+With FluxTest, all the developers have to do is integrate minimal code into their product's HTML. After that, FluxTest handles everything else, from rendering components from its collection of pre-built feedback components, which users can pick from, to ensuring that the data collected from these pre-built components is stored in the right location for running analytics.
 
 Some of the things it can do:
 
-- Built to involve team members with less technical skills.
-- Very minimal setup required to start using FluxTest.
-- A diverse collection of input feedback collection components that can be used with the click of a button.
+- Involve team members with less technical skills.
+
+- Require minimal setup to start using FluxTest.
+
+- Offer diverse feedback collection components that can be used with the click of a button.
 
 Find out more from the video below.
 
