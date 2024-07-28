@@ -7,12 +7,13 @@ export class ResponseDataService {
   constructor(private readonly prisma: PrismaService) {}
 
   async saveEvent(event: ResponseEvent) {
+    console.log(event)
     return this.prisma.events.create({
       data: {
         projectId: event.projectId,
         componentId: event.componentId.toUpperCase(),
         sessionId: event.sessionId,
-        data: JSON.stringify(event.data),
+        data: event.data
       },
     });
   }

@@ -179,7 +179,7 @@ const generateRandomId = () => {
 };
 
 const sendData = async (data, projectId, componentId, value) => {
-  data.data = { ...data.data, value, uid: generateRandomId() }
+  data.data = { ...data.data, value }
   try {
     const response = await fetch(
       `http://localhost:3170/v1/script-handler/events`,
@@ -188,7 +188,7 @@ const sendData = async (data, projectId, componentId, value) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ projectId, componentId, ...data }),
+        body: JSON.stringify({ projectId, componentId, ...data, sessionId: generateRandomId() }),
         credentials: "include", // Include this if your server requires credentials
       }
     );

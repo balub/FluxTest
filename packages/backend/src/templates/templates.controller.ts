@@ -18,19 +18,19 @@ export class TemplatesController {
     return this.templateService.createTemplate(body, authUser.uid);
   }
 
-  @Get(':projectId')
-  @UseGuards(JwtAuthGuard)
-  async getProjectTemplate(@Param('projectId') projectId: string) {
-    return this.templateService.getTemplateByProject(projectId);
-  }
+    @Get(":projectId")
+    @UseGuards(JwtAuthGuard)
+    async getProjectTemplate(@Param('projectId') projectId: string) {
+        return this.templateService.getTemplateByProject(projectId)
+    }
 
-  @Put(':projectId')
-  @UseGuards(JwtAuthGuard)
-  async updateTemplate(
-    @Param('projectId') projectId: string,
-    @Body() body: CreateTemplateDTO,
-    @User() authUser: AuthUser,
-  ) {
-    return this.templateService.updateTemplate(body, projectId, authUser.uid)
-  }
+    @Put(':projectId')
+    @UseGuards(JwtAuthGuard)
+    async updateTemplate(
+      @Param('projectId') projectId: string,
+      @Body() body: CreateTemplateDTO,
+      @User() authUser: AuthUser,
+    ) {
+      return this.templateService.updateTemplate(body, projectId, authUser.uid)
+    }
 }

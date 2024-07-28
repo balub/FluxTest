@@ -39,7 +39,7 @@ const Project: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ backgroundColor: "#0A2342", paddingX: "5%", paddingTop: "2%" }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ backgroundColor: "#34425f", paddingX: "5%", paddingTop: "2%" }}>
         <Typography variant="h6" sx={{ fontWeight: '600' }} gutterBottom>
           {projectName || 'Loading...'}
         </Typography>
@@ -54,7 +54,7 @@ const Project: React.FC = () => {
           </Tooltip>
         </Box>
       </Box>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "#0A2342", paddingX: "5%" }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: "#34425f", paddingX: "5%" }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example"  sx={{ '& .MuiTab-root': { color: 'white' } }}>
           <Tab label="Editor" />
           <Tab label="Analysis" />

@@ -32,14 +32,14 @@ export class TemplatesService {
     });
   }
 
-  async updateTemplate(data: CreateTemplateDTO, projectId: string, userId: string) {
-    return this.prisma.template.update({
-      where: { projectId },
-      data: {
-        meta: data.meta,
-        projectId: data.projectId,
-        createdBy: userId,
-      },
-    });
-  }
+    async updateTemplate(data: CreateTemplateDTO, projectId: string, userId: string) {
+        return this.prisma.template.update({
+          where: { projectId },
+          data: {
+            meta: data.meta,
+            projectId: data.projectId,
+            createdBy: userId,
+          },
+        });
+      }
 }

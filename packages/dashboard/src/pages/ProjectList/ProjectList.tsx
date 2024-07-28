@@ -110,9 +110,16 @@ const ProjectList: React.FC = () => {
           </Grid>
           {projects.map((project) => (
             <Grid item xs={12} sm={6} md={4} key={project.id}>
-              <Card style={{ width: '300px', height: '200px' }} onClick={() => handleCardClick(project.id)}>
+              <Card style={{ width: '300px', height: '200px' }} onClick={() => handleCardClick(project.id)}  sx={{
+              '&:hover': {
+                backgroundColor: '#d4d6dd',
+                cursor: 'pointer',
+                transform: 'scale(1.05)',
+                transition: 'transform 0.3s ease-in-out',
+              },
+            }}>
                 <CardContent>
-                  <Typography variant="h6">
+                  <Typography variant="h6" sx={{fontWeight: "600"}}>
                     {project.name}
                   </Typography>
                 </CardContent>
