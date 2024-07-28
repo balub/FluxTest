@@ -145,7 +145,7 @@ class Flux {
     const templateData = await fetchTemplateData(this.projectId);
 
     for (let index = 0; index < templateData.meta.length; index++) {
-      componentRender(templateData.meta[index]);
+      componentRender(templateData.meta[index], this.projectId);
     }
   }
 }
@@ -174,18 +174,39 @@ const fetchTemplateData = async (projectId) => {
   }
 };
 
-const sendData = async (data, projectId, value) => {
-  data.data = { ...data.data, projectId, value }
-  console.log(data)
+const generateRandomId = () => {
+  return "id-" + Math.random().toString(36).substr(2, 9);
+};
+
+const sendData = async (data, projectId, componentId, value) => {
+  data.data = { ...data.data, value, uid: generateRandomId() }
+  try {
+    const response = await fetch(
+      `http://localhost:3170/v1/script-handler/events`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ projectId, componentId, ...data }),
+        credentials: "include", // Include this if your server requires credentials
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+
+    // Parse the JSON response
+    return response.json();
+  } catch (error) {
+    console.error("Fetch error: ", error);
+  }
 }
 
-const componentRender = (templateData) => {
+const componentRender = (templateData, projectId) => {
   const { componentId, data } = templateData;
   const fluxContainer = document.getElementById("fluxContainer");
-
-  const generateRandomId = () => {
-    return "id-" + Math.random().toString(36).substr(2, 9);
-  };
 
   switch (componentId.toUpperCase()) {
     case "INPUT":
@@ -209,7 +230,7 @@ const componentRender = (templateData) => {
         const value = inputField.value;
         button.disabled = "true"
         button.style = "opacity:0.6"
-        await sendData(templateData, this.projectId, value)
+        await sendData(templateData, projectId, componentId, value)
         setTimeout(() => {
           document.getElementById(inputId).style.display = "none"
         }, 2000)
@@ -243,8 +264,9 @@ const componentRender = (templateData) => {
       document
         .getElementById(sliderId)
         .querySelector(".slider")
-        .addEventListener("mouseup", (event) => {
+        .addEventListener("mouseup", async (event) => {
           const value = event.target.value
+          await sendData(templateData, projectId, componentId, value)
           document.getElementById(sliderId).querySelector(".slider").disabled = "true"
           setTimeout(() => {
             document.getElementById(sliderId).style.display = "none"
