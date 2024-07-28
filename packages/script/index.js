@@ -174,6 +174,11 @@ const fetchTemplateData = async (projectId) => {
   }
 };
 
+const sendData = async (data, projectId, value) => {
+  data.data = { ...data.data, projectId, value }
+  console.log(data)
+}
+
 const componentRender = (templateData) => {
   const { componentId, data } = templateData;
   const fluxContainer = document.getElementById("fluxContainer");
@@ -186,7 +191,7 @@ const componentRender = (templateData) => {
     case "INPUT":
       const inputId = generateRandomId();
       fluxContainer.innerHTML += `<div class=${data.position} id="${inputId}">
-            <div class="input-box" style="padding:50px">
+            <div class="input-box" style="padding-bottom:50px;">
               <h6 class="label">${data.label}</h6>
              <input type="text" class="input-field" placeholder="${data.placeholder}" />
               <button 
@@ -199,20 +204,19 @@ const componentRender = (templateData) => {
       const inputContainer = document.getElementById(inputId);
       const button = inputContainer.querySelector(".submit-button");
 
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         const inputField = inputContainer.querySelector(".input-field");
         const value = inputField.value;
-        console.log(value);
         button.disabled = "true"
         button.style = "opacity:0.6"
+        await sendData(templateData, this.projectId, value)
         setTimeout(() => {
           document.getElementById(inputId).style.display = "none"
         }, 2000)
-        // Handle button click event here
       });
       break;
 
-    case "SLIDER":
+    case "RANGE":
       const sliderId = generateRandomId();
       fluxContainer.innerHTML += `<div class="${data.position
         }" id="${sliderId}">
@@ -249,7 +253,7 @@ const componentRender = (templateData) => {
 
       break;
 
-    case "REMINDER":
+    case "RATING":
       const toastId = generateRandomId();
       fluxContainer.innerHTML += `<div id="${toastId}" class="${data.position
         }" class="center-display">
