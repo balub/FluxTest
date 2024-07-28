@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, TextField, Typography, InputLabel, Select, MenuItem, Stack, Tabs, Tab } from '@mui/material';
+import { Box, Grid, TextField, Typography, InputLabel, Select, MenuItem, Stack, Tabs, Tab, Button } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material';
 import axios from 'axios';
 import "./styles.css";
+import { useParams } from 'react-router-dom';
 
 const Editor: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const [tabValue, setTabValue] = useState(0);
   const [components, setComponents] = useState<{ id: string, name: string }[]>([]);
   const [selectedComponent, setSelectedComponent] = useState<string>('');
@@ -22,16 +24,31 @@ const Editor: React.FC = () => {
         try {
           const response = await axios.get('http://localhost:3170/v1/components', { withCredentials: true });
           const componentData = response.data;
-
           setComponents(componentData);
-          if (componentData.length > 0) {
-            setSelectedComponent(componentData[0].name);
-          }
         } catch (error) {
           console.error('Error fetching components:', error);
         }
       };
 
+      const fetchTemplate = async () => {
+        try {
+          const response = await axios.get(`http://localhost:3170/v1/templates/${id}`, { withCredentials: true });
+          const templateData = response.data;
+          const meta = templateData.meta[0];
+          if (meta) {
+            setLabel(meta.data.label || '');
+            setPosition(meta.data.position || '');
+            setPlaceholder(meta.data.placeholder || '');
+            setSelectedComponent(meta.componentId.toUpperCase());
+            setMinValue(meta.data.minValue || 1);
+            setMaxValue(meta.data.maxValue || 100);
+          }
+        } catch (error) {
+          console.error('Error fetching template:', error);
+        }
+      };
+
+      fetchTemplate();
       fetchComponents();
   }, []);
 
@@ -154,6 +171,35 @@ const Editor: React.FC = () => {
     }
   };
 
+  const handleSave = async () => {
+    const data:any = {
+      meta: [
+        {
+          componentId: selectedComponent.toLowerCase(),
+          data: {
+            label,
+            position,
+          },
+        },
+      ],
+      projectId: id,
+    };
+
+    if (selectedComponent === 'INPUT') {
+      data.meta[0].data.placeholder = placeholder;
+    } else if (selectedComponent === 'RANGE') {
+      data.meta[0].data.minValue = minValue;
+      data.meta[0].data.maxValue = maxValue;
+    }
+
+    try {
+      await axios.post('http://localhost:3170/v1/templates', data, { withCredentials: true });
+      console.log('Data saved successfully');
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
   return (
     <Grid container sx={{ backgroundColor: "grey", height: "100%" }}>
       <Grid item xs={8}>
@@ -227,12 +273,15 @@ const Editor: React.FC = () => {
                   value={position}
                   onChange={handleDropdownChange}
                 >
-                  <MenuItem value={"top right"}>Top Right</MenuItem>
-                  <MenuItem value={"top left"}>Top Left</MenuItem>
-                  <MenuItem value={"bottom right"}>Bottom Right</MenuItem>
-                  <MenuItem value={"bottom left"}>Bottom Left</MenuItem>
+                  <MenuItem value={"top-right"}>Top Right</MenuItem>
+                  <MenuItem value={"top-left"}>Top Left</MenuItem>
+                  <MenuItem value={"bottom-right"}>Bottom Right</MenuItem>
+                  <MenuItem value={"bottom-left"}>Bottom Left</MenuItem>
                 </Select>
               </Stack>
+              <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 2 }}>
+                Save
+              </Button>
             </Box>
           )}
         </Box>
