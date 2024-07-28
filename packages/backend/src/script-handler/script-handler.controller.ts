@@ -1,14 +1,13 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TemplatesService } from 'src/templates/templates.service';
 import { CreateEventDTO } from './dto/create-event.dto';
-import { ClickhouseService } from 'src/clickhouse/clickhouse.service';
-import * as E from 'fp-ts/Either';
+import { ResponseDataService } from 'src/response-data/response-data.service';
 
 @Controller({ path: 'script-handler', version: '1' })
 export class ScriptHandlerController {
   constructor(
     private readonly templateService: TemplatesService,
-    private readonly clickhouseService: ClickhouseService,
+    private readonly responseDataService: ResponseDataService,
   ) {}
 
   @Get(':projectId')
@@ -18,12 +17,11 @@ export class ScriptHandlerController {
 
   @Post('events')
   async getResponseEvents(@Body() data: CreateEventDTO) {
-    const res = await this.clickhouseService.saveEvent({
+    return this.responseDataService.saveEvent({
       projectId: data.projectId,
-      componentId: data.componentId.toUpperCase(),
+      componentId: data.componentId,
+      sessionId: data.sessionId,
       data: data.data,
     });
-    if (E.isLeft(res)) throw new Error(res.left);
-    return res.right;
   }
 }

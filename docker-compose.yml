@@ -15,7 +15,6 @@ services:
       - /usr/src/app/node_modules/
     depends_on:
       - db
-      - clickhouse
     ports:
       - "3170:3170"
 
@@ -37,26 +36,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-
-  clickhouse:
-    image: "clickhouse/clickhouse-server:${CLICKHOUSE_VERSION-23.2-alpine}"
-    container_name: clickhouse
-    ports:
-      - "8123:8123"
-      - "9000:9000"
-    ulimits:
-      nofile:
-        soft: 262144
-        hard: 262144
-    healthcheck:
-      # "clickhouse", "client", "-u ${CLICKHOUSE_USER}", "--password ${CLICKHOUSE_PASSWORD}", "-q 'SELECT 1'"
-      test: ["CMD", "wget", "--spider", "-q", "localhost:8123/ping"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-    volumes:
-      - "./.docker/clickhouse/config.xml:/etc/clickhouse-server/config.xml"
-      - "./.docker/clickhouse/users.xml:/etc/clickhouse-server/users.xml"
 
 volumes:
   postgres_data:

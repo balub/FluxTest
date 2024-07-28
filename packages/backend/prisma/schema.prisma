@@ -47,6 +47,7 @@ model Project {
   createdOn DateTime  @default(now())
   updatedOn DateTime  @updatedAt
   Template  Template?
+  Events    Events[]
 }
 
 model Components {
@@ -66,6 +67,16 @@ model Template {
   meta      Json
   createdOn DateTime @default(now())
   updatedOn DateTime @updatedAt
+}
+
+model Events {
+  id          String   @unique @default(uuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  componentId String
+  sessionId   String
+  data        Json
+  createdOn   DateTime @default(now())
 }
 
 enum Status {
