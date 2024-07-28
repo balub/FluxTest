@@ -12,7 +12,7 @@ Some of the things it can do:
 
 - Offer diverse feedback collection components that can be used with the click of a button.
 
-Find out more from the video below.
+Find out more from the video [here](https://drive.google.com/file/d/1jkpKCRn0iRIuRqgM0WXncKKvtPNU8gVV/view?usp=drive_link).
 
 ## Run Locally
 
@@ -41,7 +41,6 @@ Install dependencies
   pnpm install
 ```
 
-Build the FluxTest images with
 
 ```bash
   docker compose build .
