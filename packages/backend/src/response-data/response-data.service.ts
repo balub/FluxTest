@@ -10,7 +10,7 @@ export class ResponseDataService {
     return this.prisma.events.create({
       data: {
         projectId: event.projectId,
-        componentId: event.componentId,
+        componentId: event.componentId.toUpperCase(),
         sessionId: event.sessionId,
         data: JSON.stringify(event.data),
       },
@@ -21,7 +21,7 @@ export class ResponseDataService {
     return this.prisma.events.findMany({
       where: {
         projectId: projectID,
-        componentId: componentID,
+        componentId: componentID.toUpperCase(),
       },
     });
   }
