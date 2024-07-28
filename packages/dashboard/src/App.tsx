@@ -13,11 +13,10 @@ const App: React.FC = () => {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<ProtectedRoute element={<ProjectList />}/>} />
-          {/* <Route path="/project/:id" element={<ProtectedRoute element={<Project />}/>} /> */}
+          <Route path="/project/:id" element={<ProtectedRoute element={<Project />}/>} />
         </Route>
         <Route path="/login" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/project/:id" element={<Project/>} />
       </Routes>
     </Router>
   );
