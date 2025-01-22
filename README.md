@@ -1,14 +1,16 @@
-# FluxTest
+# Placeholdr
 
-FluxTest is a simple, open-source, self-hostable tool for collecting product feedback and analysis. The idea behind FluxTest is that product managers or other non-technical team members no longer have to rely on the engineering team to help them run minor experiments and other activities they want to conduct on their platform with their users.
+This project has been renamed from FluxTest to Placeholdr. Honestly, FluxTest was a terrible, ChatGPT-generated name that we selected because we were too lazy to pick a good one.
 
-With FluxTest, all the developers have to do is integrate minimal code into their product's HTML. After that, FluxTest handles everything else, from rendering components from its collection of pre-built feedback components, which users can pick from, to ensuring that the data collected from these pre-built components is stored in the right location for running analytics.
+Placeholdr is a simple, open-source, self-hostable tool for collecting product feedback and analysis. The idea behind Placeholdr is that product managers or other non-technical team members no longer have to rely on the engineering team to help them run minor experiments and other activities they want to conduct on their platform with their users.
+
+With Placeholdr, all the developers have to do is integrate minimal code into their product's HTML. After that, Placeholdr handles everything else, from rendering components from its collection of pre-built feedback components, which users can pick from, to ensuring that the data collected from these pre-built components is stored in the right location for running analytics.
 
 Some of the things it can do:
 
 - Involve team members with less technical skills.
 
-- Require minimal setup to start using FluxTest.
+- Require minimal setup to start using Placeholdr.
 
 - Offer diverse feedback collection components that can be used with the click of a button.
 
@@ -19,20 +21,20 @@ Find out more from the video [here](https://drive.google.com/file/d/1jkpKCRn0iRI
 ### Requirements
 
 - A server with Node.js version 16.13 or newer
-- A database. FluxTest supports [PostgreSQL](https://www.postgresql.org/).
-- FluxTest requires `pnpm` to be installed if not already present. can be done with `npm i -g pnpm`
+- A database. Placeholdr supports [PostgreSQL](https://www.postgresql.org/).
+- Placeholdr requires `pnpm` to be installed if not already present. can be done with `npm i -g pnpm`
 - Docker and Docker Compose
 
 Clone the project
 
 ```bash
-  git clone https://github.com/balub/FluxTest.git
+  git clone https://github.com/balub/Placeholdr.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd FluxTest
+  cd Placeholdr
 ```
 
 Install dependencies
@@ -60,7 +62,7 @@ To run this project, you will need to add the following environment variables to
     cp .env.example .env
 ```
 
-The following are the environment variables used by FluxTest.
+The following are the environment variables used by Placeholdr.
 
 ```
 # Database configs
@@ -104,6 +106,6 @@ Talented frontend engineers and designers please help us 🥲🥲.
 
 ## License
 
-FluxTest (the code in this repository) is licensed under the MIT license.
+Placeholdr (the code in this repository) is licensed under the MIT license.
 
 [MIT](https://choosealicense.com/licenses/mit/)
