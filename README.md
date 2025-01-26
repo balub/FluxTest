@@ -92,6 +92,11 @@ From the root directory:
 ```bash
   npx prisma migrate dev
 ```
+- Run the seed script
+
+```bash
+  npx run seed
+```
 
 3. Navigate to the backend package and open it in your preferred IDE:
 
