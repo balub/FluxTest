@@ -71,7 +71,9 @@ From the root directory:
   docker compose up -d
 ```
 
-Ideally the below step 2 should happen automatically, if not run the below commands manually 2. Run the migrations in the backend containers:
+Ideally the below step 2 should happen automatically, if not run the below commands manually
+
+2. Run the migrations in the backend containers:
 
 -   Find the container ID for the backend by running:
 
