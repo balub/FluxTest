@@ -8,11 +8,11 @@ With Placeholdr, all the developers have to do is integrate minimal code into th
 
 Some of the things it can do:
 
-- Involve team members with less technical skills.
+-   Involve team members with less technical skills.
 
-- Require minimal setup to start using Placeholdr.
+-   Require minimal setup to start using Placeholdr.
 
-- Offer diverse feedback collection components that can be used with the click of a button.
+-   Offer diverse feedback collection components that can be used with the click of a button.
 
 Find out more from the video [here](https://drive.google.com/file/d/1jkpKCRn0iRIuRqgM0WXncKKvtPNU8gVV/view?usp=drive_link).
 
@@ -20,10 +20,10 @@ Find out more from the video [here](https://drive.google.com/file/d/1jkpKCRn0iRI
 
 ### Requirements
 
-- A server with Node.js version 16.13 or newer
-- A database. Placeholdr supports [PostgreSQL](https://www.postgresql.org/).
-- Placeholdr requires `pnpm` to be installed if not already present. can be done with `npm i -g pnpm`
-- Docker and Docker Compose
+-   A server with Node.js version 16.13 or newer
+-   A database. Placeholdr supports [PostgreSQL](https://www.postgresql.org/).
+-   Placeholdr requires `pnpm` to be installed if not already present. can be done with `npm i -g pnpm`
+-   Docker and Docker Compose
 
 Clone the project
 
@@ -68,34 +68,35 @@ From the root directory:
 1. Start the containers:
 
 ```bash
-  docker compose up
+  docker compose up -d
 ```
 
-2. Run the migrations in the backend containers:
+Ideally the below step 2 should happen automatically, if not run the below commands manually 2. Run the migrations in the backend containers:
 
-- Find the container ID for the backend by running:
+-   Find the container ID for the backend by running:
 
 ```bash
   docker ps
 ```
 
-- Copy the container ID of the `placeholdr-backend` image.
+-   Copy the container ID of the `placeholdr-backend` image.
 
-- Run the following command to access the container shell:
+-   Run the following command to access the container shell:
 
 ```bash
   docker exec -it <container_id> bash
 ```
 
-- Inside the shell, run:
+-   Inside the shell, run:
 
 ```bash
   npx prisma migrate dev
 ```
-- Run the seed script
+
+-   Run the seed script
 
 ```bash
-  npx run seed
+  npm run seed
 ```
 
 3. Navigate to the backend package and open it in your preferred IDE:
@@ -143,4 +144,3 @@ Talented frontend engineers and designers please help us 🥲🥲.
 Placeholdr (the code in this repository) is licensed under the MIT license.
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
