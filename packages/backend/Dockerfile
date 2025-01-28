@@ -26,5 +26,5 @@ EXPOSE 3170
 
 FROM builder AS prod
 ENV PRODUCTION="true"
-ENTRYPOINT ["sh", "-c", "npx prisma migrate dev && npm run seed && pnpm run start:prod"]
+CMD ["pnpm", "run", "start:prod"]
 EXPOSE 3170
