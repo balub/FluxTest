@@ -1,6 +1,6 @@
 # Placeholdr
 
-This project has been renamed from FluxTest to Placeholdr. Honestly, FluxTest was a terrible, ChatGPT-generated name that we selected because we were too lazy to pick a good one.
+This project has been renamed from FluxTest to Placeholdr. Honestly, FluxTest was a terrible, ChatGPT-generated name that we selected because we were too lazy to pick a good one, and we chose Placeholdr🤣.
 
 Placeholdr is a simple, open-source, self-hostable tool for collecting product feedback and analysis. The idea behind Placeholdr is that product managers or other non-technical team members no longer have to rely on the engineering team to help them run minor experiments and other activities they want to conduct on their platform with their users.
 
@@ -43,15 +43,85 @@ Install dependencies
   pnpm install
 ```
 
+Make the installation script executable:
 
 ```bash
-  docker compose build .
+  chmod +x install.sh
 ```
 
-Start all the service with
+Run the installation script to set up `pnpm` and other necessary steps:
 
 ```bash
-    docker compose up .
+  ./install.sh
+```
+
+Build the containers:
+
+```bash
+  docker compose build
+```
+
+### Backend Run Instructions
+
+From the root directory:
+
+1. Start the containers:
+
+```bash
+  docker compose up
+```
+
+2. Run the migrations in the backend containers:
+
+- Find the container ID for the backend by running:
+
+```bash
+  docker ps
+```
+
+- Copy the container ID of the `placeholdr-backend` image.
+
+- Run the following command to access the container shell:
+
+```bash
+  docker exec -it <container_id> bash
+```
+
+- Inside the shell, run:
+
+```bash
+  npx prisma migrate dev
+```
+- Run the seed script
+
+```bash
+  npx run seed
+```
+
+3. Navigate to the backend package and open it in your preferred IDE:
+
+```bash
+  cd packages/backend
+```
+
+### Frontend Run Instructions
+
+1. Navigate to the dashboard package:
+
+```bash
+  cd packages/dashboard
+```
+
+2. If dependencies are not installed, run:
+
+```bash
+  pnpm i
+```
+
+3. Start the development server:
+
+```bash
+  pnpm run dev
 ```
 
 ## Environment Variables
@@ -60,42 +130,6 @@ To run this project, you will need to add the following environment variables to
 
 ```bash
     cp .env.example .env
-```
-
-The following are the environment variables used by Placeholdr.
-
-```
-# Database configs
-POSTGRES_USER= **********
-POSTGRES_PASSWORD= **********
-POSTGRES_DB= **********
-DATABASE_URL=postgresql://user:password@databaseURL:5432/databaseName
-PORT=3170
-
-# Auth Tokens Config
-JWT_SECRET="secret1233"
-TOKEN_SALT_COMPLEXITY=10
-MAGIC_LINK_TOKEN_VALIDITY= 3
-REFRESH_TOKEN_VALIDITY="604800000" # Default validity is 7 days (604800000 ms) in ms
-ACCESS_TOKEN_VALIDITY="86400000" # Default validity is 1 day (86400000 ms) in ms
-SESSION_SECRET='add some secret here'
-ALLOW_SECURE_COOKIES=false
-
-# App Domain Config
-REDIRECT_URL="http://localhost:5173"
-WHITELISTED_ORIGINS = "http://localhost:3170,http://localhost:3000,http://localhost:5173"
-
-# Google Auth Config
-GOOGLE_CLIENT_ID= ****************************************
-GOOGLE_CLIENT_SECRET= ****************************************
-GOOGLE_CALLBACK_URL=http://localhost:3170/v1/auth/google/callback
-GOOGLE_SCOPE=email,profile
-
-# Github Auth Config
-GITHUB_CLIENT_ID= ******************************
-GITHUB_CLIENT_SECRET= ******************************
-GITHUB_CALLBACK_URL=http://localhost:3170/v1/auth/github/callback
-GITHUB_SCOPE=user:email%
 ```
 
 ## Contributing
@@ -109,3 +143,4 @@ Talented frontend engineers and designers please help us 🥲🥲.
 Placeholdr (the code in this repository) is licensed under the MIT license.
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
