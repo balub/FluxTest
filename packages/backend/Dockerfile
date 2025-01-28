@@ -22,7 +22,6 @@ RUN pnpm exec prisma generate
 FROM builder AS dev
 ENV PRODUCTION="false"
 ENTRYPOINT ["sh", "-c", "npx prisma migrate dev && npm run seed && pnpm run start:dev"]
-CMD ["pnpm", "run", "start:dev"]
 EXPOSE 3170
 
 FROM builder AS prod
