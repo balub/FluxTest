@@ -1,44 +1,55 @@
-import React from 'react';
-import { Box, Button, Typography, Stack } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import React from "react";
 
 const SignIn: React.FC = () => {
   const handleSignIn = (endpoint: string) => {
     const url = `http://localhost:3170/v1/auth/${endpoint}`;
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="100vh"
-      flexDirection="column"
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        flexDirection: "column",
+      }}
     >
-      <Typography variant="h5" sx={{ fontWeight: '600' }} gutterBottom>
+      <h2 style={{ fontWeight: 600, marginBottom: "16px" }}>
         Login to continue
-      </Typography>
-      <Stack spacing={2} direction="row">
-        <Button
-          variant="outlined"
-          startIcon={<GoogleIcon />}
-          style={{ textTransform: 'none' }}
-          onClick={() => handleSignIn('google')}
+      </h2>
+      <div style={{ display: "flex", gap: "16px" }}>
+        <button
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "8px 16px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            background: "white",
+            cursor: "pointer",
+          }}
+          onClick={() => handleSignIn("google")}
         >
           Sign in with Google
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<GitHubIcon />}
-          style={{ textTransform: 'none' }}
-          onClick={() => handleSignIn('github')}
+        </button>
+        <button
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "8px 16px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            background: "white",
+            cursor: "pointer",
+          }}
+          onClick={() => handleSignIn("github")}
         >
           Sign in with GitHub
-        </Button>
-      </Stack>
-    </Box>
+        </button>
+      </div>
+    </div>
   );
 };
 
