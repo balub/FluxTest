@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 async function main() {
-  const components = await prisma.components.upsert({
+  const components = await prisma.components.createMany({
     data: [{ name: 'INPUT' }, { name: 'RANGE' }, { name: 'RATING' }],
   });
   console.log({ components });
