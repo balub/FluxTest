@@ -1,6 +1,9 @@
 # Firebase
 .firebase
 
+# VS settings
+.vscode
+
 ### Node ###
 # Logs
 logs
