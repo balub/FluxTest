@@ -1,20 +1,28 @@
 {
-  "name": "Placeholdr",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky && husky install",
-    "lint": "pnpm -r do-lint",
-    "pre-commit": "pnpm -r do-lint && pnpm -r do-typecheck"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
-    "husky": "^8.0.0"
-  }
+	"name": "Placeholdr",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prepare": "husky && husky install",
+		"lint": "pnpm -r do-lint",
+		"pre-commit": "pnpm -r do-lint && pnpm -r do-typecheck"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@commitlint/cli": "^19.6.1",
+		"@commitlint/config-conventional": "^19.6.0",
+		"@typescript-eslint/eslint-plugin": "^7.0.0",
+		"@typescript-eslint/parser": "^7.0.0",
+		"eslint": "^8.56.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-define-config": "^2.1.0",
+		"husky": "^8.0.0",
+		"prettier": "^3.0.0",
+		"typescript": "^5.7.3"
+	}
 }
